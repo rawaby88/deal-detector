@@ -1,0 +1,13 @@
+#! /bin/bash
+
+cp .env.example .env
+touch database/database.sqlite
+composer install --ignore-platform-reqs
+docker compose up --build --remove-orphans -d
+docker compose run app composer install
+docker compose run app cp -n .env.example .env
+docker compose run app php artisan migrate:fresh
+docker compose run app php artisan key:generate
+docker compose run app php artisan config:clear
+docker compose run app npm install
+docker compose run app npm run dev
