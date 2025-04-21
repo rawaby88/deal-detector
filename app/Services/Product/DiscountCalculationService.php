@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Product;
@@ -7,10 +8,7 @@ use App\Models\Product\Product;
 
 class DiscountCalculationService implements DiscountCalculationServiceInterface
 {
-
-    public function __construct(protected DiscountConfigurationServiceInterface $configService)
-    {
-    }
+    public function __construct(protected DiscountConfigurationServiceInterface $configService) {}
 
     public function getProductWithMarginData(Product $product): array
     {
@@ -30,8 +28,6 @@ class DiscountCalculationService implements DiscountCalculationServiceInterface
         ];
     }
 
-
-
     public function suggestDiscountPercentage(Product $product): float
     {
         $marginPercentage = $this->calculateMarginPercentage(product: $product);
@@ -50,7 +46,7 @@ class DiscountCalculationService implements DiscountCalculationServiceInterface
         $suggestedDiscount = $availableMarginForDiscount * $discountRatio;
         $maximumDiscount = $availableMarginForDiscount * $this->configService->getMaximumDiscountRatio();
 
-        return ceil( min( $suggestedDiscount, $maximumDiscount ) );
+        return ceil(min($suggestedDiscount, $maximumDiscount));
     }
 
     public function calculateDiscountRatio(int $salesCount, float $stockQuantity): float
@@ -77,16 +73,16 @@ class DiscountCalculationService implements DiscountCalculationServiceInterface
 
     public function calculateMarginPercentage(Product $product): float
     {
-        if ($product->price_in_cents  <= 0) {
+        if ($product->price_in_cents <= 0) {
             return 0;
         }
 
-        return ( ($product->getRawOriginal(key: 'price_in_cents') - $product->getRawOriginal(key: 'purchase_price_in_cents')) / $product->getRawOriginal(key: 'price_in_cents') ) * 100;
+        return (($product->getRawOriginal(key: 'price_in_cents') - $product->getRawOriginal(key: 'purchase_price_in_cents')) / $product->getRawOriginal(key: 'price_in_cents')) * 100;
     }
 
     public function calculateMarginInCents(Product $product): int
     {
-        return ($product->getRawOriginal(key: 'price_in_cents') - $product->getRawOriginal(key: 'purchase_price_in_cents')) ;
+        return $product->getRawOriginal(key: 'price_in_cents') - $product->getRawOriginal(key: 'purchase_price_in_cents');
     }
 
     public function calculateNewMarginPercentage(Product $product, float $discount): float
@@ -95,14 +91,13 @@ class DiscountCalculationService implements DiscountCalculationServiceInterface
             return 0;
         }
 
-        $discountedPrice = $this->getDiscountedPrice(product: $product, discount: $discount);;
+        $discountedPrice = $this->getDiscountedPrice(product: $product, discount: $discount);
 
-        return ((($discountedPrice - $product->getRawOriginal(key: 'purchase_price_in_cents')) / $discountedPrice) * 100);
+        return (($discountedPrice - $product->getRawOriginal(key: 'purchase_price_in_cents')) / $discountedPrice) * 100;
     }
 
     public function getDiscountedPrice(Product $product, float $discount): int
     {
-        return (int)($product->getRawOriginal(key: 'price_in_cents') * (1 - ($discount / 100)));
+        return (int) ($product->getRawOriginal(key: 'price_in_cents') * (1 - ($discount / 100)));
     }
-
 }

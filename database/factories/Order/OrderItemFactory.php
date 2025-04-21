@@ -35,7 +35,7 @@ class OrderItemFactory extends Factory
         return $this->state(function (array $attributes) {
             $product = Product::find($attributes['product_id']);
 
-            if (!$product) {
+            if (! $product) {
                 return [];
             }
 

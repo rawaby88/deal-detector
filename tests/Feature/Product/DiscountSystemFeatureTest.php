@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Feature\Product;
@@ -23,7 +24,7 @@ class DiscountSystemFeatureTest extends TestCase
     #[Test]
     public function end_to_end_discount_system_works_correctly(): void
     {
-        //Arrange
+        // Arrange
         $product1 = Product::factory()->create([
             'price_in_cents' => 100,
             'purchase_price_in_cents' => 50,
@@ -41,39 +42,39 @@ class DiscountSystemFeatureTest extends TestCase
 
         Stock::factory()->create([
             'product_id' => $product1->id,
-            'quantity' => 50, //High stock
+            'quantity' => 50, // High stock
         ]);
 
         Stock::factory()->create([
             'product_id' => $product2->id,
-            'quantity' => 5, //Low stock
+            'quantity' => 5, // Low stock
         ]);
 
         Stock::factory()->create([
             'product_id' => $product3->id,
-            'quantity' => 25, //Medium stock
+            'quantity' => 25, // Medium stock
         ]);
 
         OrderItem::factory()->create([
             'product_id' => $product1->id,
-            'quantity' => 5, //Stock/Sales = 10 (high ratio)
+            'quantity' => 5, // Stock/Sales = 10 (high ratio)
         ]);
 
         OrderItem::factory()->create([
             'product_id' => $product2->id,
-            'quantity' => 10, //Stock/Sales = 0.5 (low ratio)
+            'quantity' => 10, // Stock/Sales = 0.5 (low ratio)
         ]);
 
         OrderItem::factory()->create([
             'product_id' => $product3->id,
-            'quantity' => 5, //Stock/Sales = 5 (medium ratio)
+            'quantity' => 5, // Stock/Sales = 5 (medium ratio)
         ]);
 
-        //Act
+        // Act
         $this->artisan(command: 'app:generate-product-discount');
 
-        //Assert
-        //Product 1: High margin (50%), high stock-to-sales ratio (10)
+        // Assert
+        // Product 1: High margin (50%), high stock-to-sales ratio (10)
         $product1->refresh();
 
         $this->assertEquals(
@@ -85,7 +86,7 @@ class DiscountSystemFeatureTest extends TestCase
             actual: $product1->suggested_discount_percentage
         );
 
-        //Product 2: Low margin (10%), low stock-to-sales ratio (0.5)
+        // Product 2: Low margin (10%), low stock-to-sales ratio (0.5)
         $product2->refresh();
         $this->assertEquals(
             expected: 10.0,
@@ -93,14 +94,14 @@ class DiscountSystemFeatureTest extends TestCase
         );
         $this->assertEquals(
             expected: 0,
-            actual: $product2->suggested_discount_percentage //No discount (margin below minimum)
+            actual: $product2->suggested_discount_percentage // No discount (margin below minimum)
         );
         $this->assertEquals(
             expected: 200,
             actual: $product2->discounted_price_in_cents
         );
 
-        //Product 3: Medium margin (40%), medium stock-to-sales ratio (5)
+        // Product 3: Medium margin (40%), medium stock-to-sales ratio (5)
         $product3->refresh();
         $this->assertEquals(
             expected: 40.0,
@@ -116,4 +117,3 @@ class DiscountSystemFeatureTest extends TestCase
         );
     }
 }
-

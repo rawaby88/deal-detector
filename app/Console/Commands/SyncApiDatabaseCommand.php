@@ -32,9 +32,9 @@ class SyncApiDatabaseCommand extends Command
 
         foreach ($results as $type => $result) {
             if (isset($result['error'])) {
-                $this->error("Error syncing $type: " . $result['error']);
+                $this->error("Error syncing $type: ".$result['error']);
             } else {
-                $this->info("$type: " . $result['message']);
+                $this->info("$type: ".$result['message']);
             }
         }
 

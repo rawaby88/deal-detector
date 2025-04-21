@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class ProductFactory extends Factory
 {
     protected $model = Product::class;
+
     public function definition(): array
     {
         $name = $this->faker->unique()->words(3, true);
@@ -29,7 +30,7 @@ class ProductFactory extends Factory
     {
         return $this->state(function (array $attributes) use ($marginPercentage) {
             $price = $attributes['price_in_cents'];
-            $purchasePrice = (int)($price * (1 - $marginPercentage / 100));
+            $purchasePrice = (int) ($price * (1 - $marginPercentage / 100));
 
             return [
                 'purchase_price_in_cents' => $purchasePrice,

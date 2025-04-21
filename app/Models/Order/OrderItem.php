@@ -48,5 +48,4 @@ class OrderItem extends Model
             set: fn ($value) => (int) ($value * 100),
         );
     }
-
 }

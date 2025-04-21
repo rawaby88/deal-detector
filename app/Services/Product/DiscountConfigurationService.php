@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Product;
@@ -14,7 +15,7 @@ class DiscountConfigurationService implements DiscountConfigurationServiceInterf
      */
     public function getMinimumMarginPercentage(): float
     {
-        return (float)config()->get('aquaventures.minimum_margin_percentage');
+        return (float) config()->get('aquaventures.minimum_margin_percentage');
     }
 
     /**
@@ -23,7 +24,7 @@ class DiscountConfigurationService implements DiscountConfigurationServiceInterf
      */
     public function getMaximumDiscountRatio(): float
     {
-        return (float)config()->get('aquaventures.maximum_discount_ratio');
+        return (float) config()->get('aquaventures.maximum_discount_ratio');
     }
 
     /**
@@ -32,7 +33,7 @@ class DiscountConfigurationService implements DiscountConfigurationServiceInterf
      */
     public function getLowStockSalesRatio(): float
     {
-        return (float)config()->get('aquaventures.stock_sales_ratio.low_ratio');
+        return (float) config()->get('aquaventures.stock_sales_ratio.low_ratio');
     }
 
     /**
@@ -41,6 +42,6 @@ class DiscountConfigurationService implements DiscountConfigurationServiceInterf
      */
     public function getHighStockSalesRatio(): float
     {
-        return (float)config()->get('aquaventures.stock_sales_ratio.high_ratio');
+        return (float) config()->get('aquaventures.stock_sales_ratio.high_ratio');
     }
 }

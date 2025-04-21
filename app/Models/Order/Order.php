@@ -21,7 +21,6 @@ class Order extends Model
         'updated_at',
     ];
 
-
     protected $casts = [
         'ordered_at' => 'datetime',
         'total_price_in_cents' => 'integer',
@@ -42,8 +41,8 @@ class Order extends Model
     protected function totalPrice(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $value / 100,
-            set: fn($value) => (int)($value * 100)
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => (int) ($value * 100)
         );
     }
 }

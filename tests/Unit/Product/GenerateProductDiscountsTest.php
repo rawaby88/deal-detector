@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Unit\Product;
@@ -22,7 +23,6 @@ class GenerateProductDiscountsTest extends TestCase
     {
         parent::setUp();
 
-
         $this->app->singleton(DiscountCalculationServiceInterface::class, function ($app) {
             return new DiscountCalculationService(
                 configService: $app->make(DiscountConfigurationServiceInterface::class)
@@ -33,7 +33,7 @@ class GenerateProductDiscountsTest extends TestCase
     #[Test]
     public function it_generates_discount_data_for_all_products(): void
     {
-        //Arrange
+        // Arrange
         $product1 = Product::factory()->create([
             'price_in_cents' => 100,
             'purchase_price_in_cents' => 60,
@@ -64,11 +64,11 @@ class GenerateProductDiscountsTest extends TestCase
             'quantity' => 10,
         ]);
 
-        //Act
+        // Act
         $this->artisan(command: 'app:generate-product-discount')
             ->assertSuccessful();
 
-        //Assert
+        // Assert
         $product1->refresh();
         $product2->refresh();
 
@@ -87,7 +87,7 @@ class GenerateProductDiscountsTest extends TestCase
     #[Test]
     public function it_updates_existing_discount_data_for_same_date(): void
     {
-        //Arrange
+        // Arrange
         $product = Product::factory()->create([
             'price_in_cents' => 100,
             'purchase_price_in_cents' => 60,
@@ -110,11 +110,11 @@ class GenerateProductDiscountsTest extends TestCase
             'new_margin_percentage' => 25.0,
         ]);
 
-        //Act
+        // Act
         $this->artisan(command: 'app:generate-product-discount')
             ->assertSuccessful();
 
-        //Assert
+        // Assert
         $product->refresh();
 
         $this->assertEquals(
@@ -142,7 +142,7 @@ class GenerateProductDiscountsTest extends TestCase
     #[Test]
     public function it_handles_exceptions_during_processing(): void
     {
-        //Arrange
+        // Arrange
         $product = Product::factory()->create();
 
         // Mock the service to throw an exception for this product
@@ -154,7 +154,7 @@ class GenerateProductDiscountsTest extends TestCase
             })
         );
 
-        //Act & Assert
+        // Act & Assert
         $this->artisan('app:generate-product-discount')
             ->assertFailed();
 

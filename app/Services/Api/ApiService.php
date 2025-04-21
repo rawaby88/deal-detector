@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Services\Api;
@@ -14,6 +15,7 @@ use Illuminate\Support\Str;
 class ApiService
 {
     protected string $baseUri;
+
     protected string $apiToken;
 
     public function __construct()
@@ -25,7 +27,7 @@ class ApiService
     protected function makeGetRequest(string $endpoint)
     {
         try {
-            $url = $this->baseUri . $endpoint;
+            $url = $this->baseUri.$endpoint;
 
             $request = Http::withToken($this->apiToken)
                 ->accept('application/json');
@@ -35,16 +37,18 @@ class ApiService
             if ($response->successful()) {
                 return $response->json();
             } else {
-                Log::error('API request failed with status: ' . $response->status(), [
+                Log::error('API request failed with status: '.$response->status(), [
                     'endpoint' => $endpoint,
-                    'response' => $response->body()
+                    'response' => $response->body(),
                 ]);
-                return ['error' => 'API request failed with status: ' . $response->status()];
+
+                return ['error' => 'API request failed with status: '.$response->status()];
             }
         } catch (\Exception $e) {
-            Log::error('API request failed: ' . $e->getMessage(), [
-                'endpoint' => $endpoint
+            Log::error('API request failed: '.$e->getMessage(), [
+                'endpoint' => $endpoint,
             ]);
+
             return ['error' => $e->getMessage()];
         }
     }
@@ -60,7 +64,7 @@ class ApiService
         $count = 0;
         foreach ($data as $productData) {
 
-            if (!isset($productData['slug'])) {
+            if (! isset($productData['slug'])) {
                 $productData['slug'] = $this->generateSlug(
                     productId: $productData['id'],
                     name: $productData['name']
@@ -84,10 +88,9 @@ class ApiService
 
         return [
             'success' => true,
-            'message' => "Successfully synchronized $count products"
+            'message' => "Successfully synchronized $count products",
         ];
     }
-
 
     public function syncStocks()
     {
@@ -112,7 +115,7 @@ class ApiService
 
         return [
             'success' => true,
-            'message' => "Successfully synchronized $count stock records"
+            'message' => "Successfully synchronized $count stock records",
         ];
     }
 
@@ -136,7 +139,6 @@ class ApiService
                 ]
             );
 
-
             if (isset($orderData['items']) && is_array($orderData['items'])) {
                 foreach ($orderData['items'] as $item) {
                     OrderItem::updateOrCreate(
@@ -159,7 +161,7 @@ class ApiService
 
         return [
             'success' => true,
-            'message' => "Successfully synchronized $count orders"
+            'message' => "Successfully synchronized $count orders",
         ];
     }
 
@@ -191,7 +193,7 @@ class ApiService
             return $existingProduct->slug;
         } else {
             while (Product::where('slug', $slug)->where('id', '!=', $productId)->exists()) {
-                $slug = $originalSlug . '-' . $counter;
+                $slug = $originalSlug.'-'.$counter;
                 $counter++;
             }
         }

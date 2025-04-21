@@ -15,7 +15,7 @@ class GenerateProductDiscountCommand extends Command
 
     public function handle(DiscountCalculationServiceInterface $discountCalculationService): int
     {
-        $this->info("Generating discount data...");
+        $this->info('Generating discount data...');
 
         $products = Product::query()->get();
         $productsCount = $products->count();
@@ -32,11 +32,10 @@ class GenerateProductDiscountCommand extends Command
                 $marginData = $discountCalculationService->getProductWithMarginData($product);
 
                 $product->margin_percentage = $marginData['margin_percentage'];
-                $product->suggested_discount_percentage  = $marginData['suggested_discount_percentage'];
-                $product->discounted_price_in_cents = $marginData['discounted_price_in_cents']/100;
+                $product->suggested_discount_percentage = $marginData['suggested_discount_percentage'];
+                $product->discounted_price_in_cents = $marginData['discounted_price_in_cents'] / 100;
                 $product->new_margin_percentage = $marginData['new_margin_percentage'];
                 $product->save();
-
 
                 $processedCount++;
 
@@ -55,6 +54,7 @@ class GenerateProductDiscountCommand extends Command
 
         if ($errorCount > 0) {
             $this->warn("{$errorCount} products failed to process. Check logs for details.");
+
             return Command::FAILURE;
         }
 

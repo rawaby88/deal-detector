@@ -39,7 +39,7 @@ class Product extends Model
     ];
 
     protected $with = [
-        'stock'
+        'stock',
     ];
 
     public function stock(): HasOne

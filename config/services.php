@@ -38,5 +38,5 @@ return [
     'api' => [
         'token' => env('API_TOKEN'),
         'base_uri' => env('API_BASE_URI'),
-    ]
+    ],
 ];
