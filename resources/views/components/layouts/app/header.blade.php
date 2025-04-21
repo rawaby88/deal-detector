@@ -36,7 +36,7 @@
                     <flux:navbar.item
                         class="h-10 max-lg:hidden [&>div>svg]:size-5"
                         icon="book-open-text"
-                        href="https://laravel.com/docs/starter-kits"
+                        href="/docs"
                         target="_blank"
                         label="Documentation"
                     />
@@ -111,7 +111,7 @@
                 {{ __('Repository') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
+                <flux:navlist.item icon="book-open-text" href="/docs" target="_blank">
                 {{ __('Documentation') }}
                 </flux:navlist.item>
             </flux:navlist>
