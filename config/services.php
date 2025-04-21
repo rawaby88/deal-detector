@@ -36,7 +36,7 @@ return [
     ],
 
     'api' => [
-        'token' => env('API_TOKEN'),
-        'base_uri' => env('API_BASE_URI'),
+        'token' => env('API_TOKEN', '1234567890'),
+        'base_uri' => env('API_BASE_URI', 'https://api.case-study.nextrend.de/api/'),
     ],
 ];
