@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Feature\Livewire\Product;
+namespace Tests\Feature\Livewire\Product;
 
 use App\Livewire\Product\ProductDiscountHelper;
 use App\Services\Product\DiscountConfigurationServiceInterface;
